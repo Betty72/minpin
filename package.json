@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Betty72/minpin/issues"
   },
+  "publishConfig": {
+    "@Betty72:registry": "https://npm.pkg.github.com"
+  },
   "homepage": "https://github.com/Betty72/minpin#readme"
 }
