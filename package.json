@@ -1,5 +1,5 @@
 {
-  "name": "@betty/minpin",
+  "name": "@betty72/minpin",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,18 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/"
+    "url": "git+https://github.com/Betty72/minpin.git"
+    
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/"
+    "url": "https://github.com/Betty72/minpin/issues"
+    
   },
   "publishConfig": {
     "@Betty72:registry": "https://npm.pkg.github.com"
   },
-  "homepage": "https://github.com/"
+  "homepage": "https://github.com/Betty72/minpin#readme"
 }
+
 
 
 
