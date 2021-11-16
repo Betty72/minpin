@@ -1,6 +1,6 @@
 {
-  "name": "@betty72/minpin",
-  "version": "1.0.0",
+  "name": "@kambi/minpin",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     
   },
   "publishConfig": {
-    "@Betty72:registry": "https://npm.pkg.github.com"
+    "@kambi:registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://github.com/Betty72/minpin#readme"
 }
