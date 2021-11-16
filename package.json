@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Betty72/minpin.git"
+    "url": "git+https://github.com/"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Betty72/minpin/issues"
+    "url": "https://github.com/"
   },
   "publishConfig": {
     "@Betty72:registry": "https://npm.pkg.github.com"
   },
-  "homepage": "https://github.com/Betty72/minpin#readme"
+  "homepage": "https://github.com/"
 }
 
 
