@@ -1,0 +1,28 @@
+{
+  "name": "redir-ext",
+  "description": "Redirects calls to kambi-bootstrap.js from one url to another",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"],
+    "preserve": false
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "*://*/*kambi-bootstrap.js*"
+  ],
+  "page_action": {
+    "default_title": "redir-ext",
+    "default_popup": "options.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["injector.js"]
+    }
+  ],
+  "web_accessible_resources": ["content.js"]
+}

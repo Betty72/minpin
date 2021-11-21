@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="options.css"
+    />
+  </head>
+  <body>
+    <form>
+      <button type="button" id="autofill">Autofill</button>
+      <h1>redir-ext</h1>
+      <label>Offering</label>
+      <input type="text" id="offering" />
+      <div id="output"></div>
+      <label>Version</label>
+      <input type="text" id="version" /><br />
+      <br /><br />
+      <label>Static files</label>
+      <select id="static">
+        <option>static.kambicdn.com</option>
+        <option>release-static.kambi.com</option>
+        <option>ctn-static.kambi.com</option>
+      </select>
+      <label>Foggles</label>
+      <select id="foggles">
+        <option>settings-api.kambicdn.com</option>
+        <option>release-settings-api.kambicdn.com</option>
+        <option>ctn-settings-api.kambicdn.com</option>
+      </select>      
+      <label
+        ><input type="checkbox" id="release" /> Use release
+        API</label
+      >
+      <br />
+      <button type="submit">Apply</button>
+      <button type="reset">Reset</button>
+      <br />
+      <ul>
+        <li>
+          <a href="https://confluence.services.kambi.com/display/APEX" target="_blank" style="float: right; text-decoration: none;"
+            >All your base are belong to us</span
+          >
+          <a
+            href="https://confluence.services.kambi.com/display/APEX/redir-ext"
+            target="_blank"
+            >Confluence</a
+          >
+          <a
+            href="https://bitbucket.services.kambi.com/projects/BC/repos/redir-ext/browse"
+            target="_blank"
+            >Bitbucket</a
+          >
+        </li>
+      </ul>
+    </form>
+    <script src="options.js"></script>
+  </body>
+</html>
