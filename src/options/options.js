@@ -7,6 +7,23 @@ const releaseElm = document.querySelector('#release');
 const staticElm = document.querySelector('#static');
 const fogglesElm = document.querySelector('#foggles');
 const outputElm = document.querySelector('#output');
+const catalogUrl =
+  'https://catalog.services.kambi.com/bettingclient_catalog.yml';
+const releaseInfoUrl =
+  'https://catalog.services.kambi.com/m_client_api_config.json';
+const paths = {
+  apiBaseUrl: '/{api}/{apiVersion}/',
+  apiStatisticsBaseUrl: '/statistics/api/',
+  apiStatisticsGraphqlUrl: '/statistics/v2018/graphql/',
+  apiLiveOccurrenceBaseUrl: '/liveoccurrence/{apiVersion}/',
+  apiLiveOccurrencePushUrl: '/liveoccurrence/{apiVersion}/',
+  apiNonCachedBaseUrl: '/{api}/{apiVersion}/',
+  apiAuthBaseUrl: '/{api}/{apiVersion}/',
+  pushUrl: '',
+  apiPIAUrl: '/pia/api/v2/cache/',
+  apiPerfTrackingUrl: '/perf/performance/track',
+  apiSupportUrl: '/support/api/',
+};
 
 const getState = () =>
   chrome.extension.getBackgroundPage().getState();
@@ -24,12 +41,24 @@ const reloadContent = () => {
   );
 };
 
+const loadReleaseApiConfig = () =>
+  fetch(releaseInfoUrl)
+    .then((response) => response.json())
+    .then((data) =>
+      Object.keys(paths).reduce(
+        (prev, key) => ({
+          ...prev,
+          [key]: `${data.release[key]}${paths[key]}`,
+        }),
+        {}
+      )
+    )
+    .catch(() => false);
+
 const loadOfferings = async () => {
   const offerings = [];
 
-  const catalog = await fetch(
-    'https://catalog.services.kambi.com/bettingclient_catalog.yml'
-  )
+  const catalog = await fetch(catalogUrl)
     .then((response) => response.text())
     .catch(() => '');
 
@@ -90,14 +119,20 @@ offeringElm.addEventListener('blur', () => {
   }, 30);
 });
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
+
+  const releaseApiConfig = releaseElm.checked
+    ? await loadReleaseApiConfig()
+    : undefined;
+
   setState({
     offering: offeringElm.value,
     version: versionElm.value,
-    release: releaseElm.checked,
     static: staticElm.value,
     foggles: fogglesElm.value,
+    release: releaseElm.checked,
+    releaseApiConfig,
   });
   reloadContent();
 });
@@ -105,9 +140,10 @@ form.addEventListener('reset', () => {
   setState({
     offering: '',
     version: '',
-    release: false,
     static: '',
     foggles: '',
+    release: false,
+    releaseApiConfig: undefined,
   });
   reloadContent();
 });
@@ -118,12 +154,21 @@ autofillElm.addEventListener('click', () => {
     .requestClientData((message) => {
       const { offering, version } = message.payload;
 
-      if (offeringElm.value && versionElm.value) {
-        offeringElm.value = offering || offeringElm.value;
-        versionElm.value = version || versionElm.value;
-      } else {
-        offeringElm.value = offeringElm.value || offering;
-        versionElm.value = versionElm.value || version;
+      switch (!false) {
+        case !offeringElm.value && !versionElm.value:
+          offeringElm.value = offering || '';
+          versionElm.value = version || '';
+          break;
+        case !!offeringElm.value && !!versionElm.value:
+          offeringElm.value = '';
+          versionElm.value = '';
+          break;
+        default:
+          offeringElm.value =
+            offeringElm.value || offering || '';
+          versionElm.value =
+            versionElm.value || version || '';
+          break;
       }
     });
 });

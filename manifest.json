@@ -4,10 +4,9 @@
   "version": "1.0",
   "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"],
-    "preserve": false
+    "scripts": ["src/background.js"]
   },
-  "options_page": "options.html",
+  "options_page": "src/options/options.html",
   "permissions": [
     "webRequest",
     "webRequestBlocking",
@@ -15,14 +14,15 @@
   ],
   "page_action": {
     "default_title": "redir-ext",
-    "default_popup": "options.html",
-    "default_icon": "icon.png"
+    "default_popup": "src/options/options.html",
+    "default_icon": "src/images/icon.png"
   },
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["injector.js"]
+      "run_at": "document_idle",
+      "js": ["src/content/injector.js"]
     }
   ],
-  "web_accessible_resources": ["content.js"]
+  "web_accessible_resources": ["src/content/content.js"]
 }

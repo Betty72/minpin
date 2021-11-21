@@ -47,6 +47,11 @@ a {
   font-size: inherit;
 }
 
+#apex {
+  float: right;
+  text-decoration: none;
+}
+
 #autofill {
   float: right;
 }

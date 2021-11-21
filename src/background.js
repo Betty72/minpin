@@ -56,7 +56,9 @@ chrome.webRequest.onBeforeRequest.addListener(
 
     // indicate that extension is acting on tab
     chrome.pageAction.setIcon({
-      path: 'icon_active.png',
+      path: chrome.runtime.getURL(
+        'src/images/icon_active.png'
+      ),
       tabId,
     });
 
@@ -74,7 +76,8 @@ chrome.webRequest.onBeforeRequest.addListener(
       };
     }
 
-    // tell content script to run
+    // tell content script to run if it has loaded, otherwice defer
+    // unibet and seneca requires this even with run_at document_start specified in manifest
     if (loadedTabs.has(tabId)) {
       requestClientLoad(tabId, search);
     } else {
@@ -94,16 +97,18 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 // drain sets and update pageAction for each tab
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-  if (changeInfo.status == 'loading') {
-    loadedTabs.delete(tabId);
-    blockedTabs.delete(tabId);
-  }
-  if (changeInfo.status == 'complete') {
-    chrome.pageAction.show(tabId);
-    loadedTabs.add(tabId);
+  switch (changeInfo.status) {
+    case 'loading':
+      loadedTabs.delete(tabId);
+      blockedTabs.delete(tabId);
+      break;
+    case 'complete':
+      chrome.pageAction.show(tabId);
+      loadedTabs.add(tabId);
 
-    if (blockedTabs.has(tabId)) {
-      requestClientLoad(tabId, blockedTabs.get(tabId));
-    }
+      if (blockedTabs.has(tabId)) {
+        requestClientLoad(tabId, blockedTabs.get(tabId));
+      }
+      break;
   }
 });
