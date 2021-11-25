@@ -3,7 +3,7 @@ const catalogUrl =
 const releaseInfoUrl =
   'https://catalog.services.kambi.com/m_client_api_config.json';
 const packageUrl =
-  'https://bitbucket.services.kambi.com/projects/bc/repos/redir-ext/package.json';
+  'https://bitbucket.services.kambi.com/projects/BC/repos/redir-ext/browse/package.json';
 
 const loadedTabs = new Set();
 const blockedTabs = new Map();
