@@ -78,3 +78,22 @@ a:hover {
 #output:empty {
   display: none;
 }
+
+.connection,
+.version {
+  display: none;
+  padding: 10px;
+  margin: 5px;
+  color: red;
+  border: 2px solid red;
+}
+.version {
+  color: orange;
+  border: 2px solid orange;
+}
+.unconnected .connection {
+  display: block;
+}
+.diff-version .version {
+  display: block;
+}

@@ -7,10 +7,7 @@ const releaseElm = document.querySelector('#release');
 const staticElm = document.querySelector('#static');
 const fogglesElm = document.querySelector('#foggles');
 const outputElm = document.querySelector('#output');
-const catalogUrl =
-  'https://catalog.services.kambi.com/bettingclient_catalog.yml';
-const releaseInfoUrl =
-  'https://catalog.services.kambi.com/m_client_api_config.json';
+
 const paths = {
   apiBaseUrl: '/{api}/{apiVersion}/',
   apiStatisticsBaseUrl: '/statistics/api/',
@@ -39,37 +36,6 @@ const reloadContent = () => {
       chrome.tabs.reload(tabs[0].id);
     }
   );
-};
-
-const loadReleaseApiConfig = () =>
-  fetch(releaseInfoUrl)
-    .then((response) => response.json())
-    .then((data) =>
-      Object.keys(paths).reduce(
-        (prev, key) => ({
-          ...prev,
-          [key]: `${data.release[key]}${paths[key]}`,
-        }),
-        {}
-      )
-    )
-    .catch(() => false);
-
-const loadOfferings = async () => {
-  const offerings = [];
-
-  const catalog = await fetch(catalogUrl)
-    .then((response) => response.text())
-    .catch(() => '');
-
-  let regex =
-    /destination_path: \/opt\/cdn\/sb-mobileclient\/([^\n]*)/g;
-
-  while ((match = regex.exec(catalog))) {
-    offerings.push(match[1]);
-  }
-
-  return offerings;
 };
 
 const updateSpotlightSearch = () => {
@@ -123,7 +89,9 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const releaseApiConfig = releaseElm.checked
-    ? await loadReleaseApiConfig()
+    ? await chrome.extension
+        .getBackgroundPage()
+        .loadReleaseApiConfig()
     : undefined;
 
   setState({
@@ -174,10 +142,12 @@ autofillElm.addEventListener('click', () => {
 });
 
 (async () => {
+  const backgroundPage =
+    chrome.extension.getBackgroundPage();
   const { offering, version, release, static, foggles } =
     getState();
 
-  offerings = await loadOfferings();
+  offerings = await backgroundPage.loadOfferings();
 
   offeringElm.value = offering;
   versionElm.value = version;
@@ -193,4 +163,22 @@ autofillElm.addEventListener('click', () => {
   } else {
     fogglesElm.options[0].selected = true;
   }
+
+  backgroundPage
+    .loadLocalPackageInfo()
+    .then((localPageInfo) => {
+      backgroundPage
+        .loadPackageInfo()
+        .then((packageInfo) => {
+          document.body.classList.toggle(
+            'unconnected',
+            !packageInfo || !packageInfo.version
+          );
+          document.body.classList.toggle(
+            'diff-version',
+            packageInfo &&
+              packageInfo.version !== localPageInfo.version
+          );
+        });
+    });
 })();

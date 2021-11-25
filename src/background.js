@@ -1,3 +1,10 @@
+const catalogUrl =
+  'https://catalog.services.kambi.com/bettingclient_catalog.yml';
+const releaseInfoUrl =
+  'https://catalog.services.kambi.com/m_client_api_config.json';
+const packageUrl =
+  'https://bitbucket.services.kambi.com/projects/bc/repos/redir-ext/package.json';
+
 const loadedTabs = new Set();
 const blockedTabs = new Map();
 
@@ -9,6 +16,48 @@ window.setState = (item) =>
     'redir-ext',
     JSON.stringify({ ...getState(), ...item })
   );
+
+window.loadReleaseApiConfig = () =>
+  fetch(releaseInfoUrl)
+    .then((response) => response.json())
+    .then((data) =>
+      Object.keys(paths).reduce(
+        (prev, key) => ({
+          ...prev,
+          [key]: `${data.release[key]}${paths[key]}`,
+        }),
+        {}
+      )
+    )
+    .catch(() => false);
+
+window.loadOfferings = async () => {
+  const offerings = [];
+
+  const catalog = await fetch(catalogUrl)
+    .then((response) => response.text())
+    .then((data) => (window.packageInfo = data))
+    .catch(() => '');
+
+  let regex =
+    /destination_path: \/opt\/cdn\/sb-mobileclient\/([^\n]*)/g;
+
+  while ((match = regex.exec(catalog))) {
+    offerings.push(match[1]);
+  }
+
+  return offerings;
+};
+
+window.loadLocalPackageInfo = () =>
+  fetch(chrome.runtime.getURL('package.json')).then(
+    (response) => response.json()
+  );
+
+window.loadPackageInfo = () =>
+  fetch(packageUrl)
+    .then((response) => response.json())
+    .catch(() => false);
 
 window.requestClientData = (cb, payload = {}) => {
   chrome.tabs.query(
