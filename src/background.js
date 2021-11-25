@@ -1,9 +1,9 @@
 const catalogUrl =
-  'https://catalog.services.kambi.com/bettingclient_catalog.yml';
+  'https://bitbucket.services.kambi.com/projects/OPSA/repos/catalog/raw/bettingclient_catalog.yml';
 const releaseInfoUrl =
-  'https://catalog.services.kambi.com/m_client_api_config.json';
+  'https://bitbucket.services.kambi.com/projects/OPSA/repos/catalog/raw/m_client_api_config.json';
 const packageUrl =
-  'https://bitbucket.services.kambi.com/projects/BC/repos/redir-ext/browse/package.json';
+  'https://bitbucket.services.kambi.com/projects/BC/repos/redir-ext/browse/package.json?raw';
 
 const loadedTabs = new Set();
 const blockedTabs = new Map();

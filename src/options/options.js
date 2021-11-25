@@ -164,6 +164,7 @@ autofillElm.addEventListener('click', () => {
     fogglesElm.options[0].selected = true;
   }
 
+  // check that we have a connection and there is no new version of the extension to download
   backgroundPage
     .loadLocalPackageInfo()
     .then((localPageInfo) => {
