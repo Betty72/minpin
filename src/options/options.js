@@ -56,6 +56,7 @@ const updateSpotlightSearch = () => {
           () => {
             offeringElm.value = offering;
             offeringElm.focus();
+            console.log('set offering', offering);
           },
           false
         );
@@ -79,10 +80,10 @@ offeringElm.addEventListener(
   'focus',
   updateSpotlightSearch
 );
-offeringElm.addEventListener('blur', () => {
-  setTimeout(() => {
+document.body.addEventListener('click', (event) => {
+  if (event.target !== offeringElm) {
     outputElm.innerHTML = '';
-  }, 30);
+  }
 });
 
 form.addEventListener('submit', async (event) => {
