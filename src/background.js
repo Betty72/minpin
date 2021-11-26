@@ -4,6 +4,19 @@ const releaseInfoUrl =
   'https://bitbucket.services.kambi.com/projects/OPSA/repos/catalog/raw/m_client_api_config.json';
 const packageUrl =
   'https://bitbucket.services.kambi.com/projects/BC/repos/redir-ext/browse/package.json?raw';
+const paths = {
+  apiBaseUrl: '/{api}/{apiVersion}/',
+  apiStatisticsBaseUrl: '/statistics/api/',
+  apiStatisticsGraphqlUrl: '/statistics/v2018/graphql/',
+  apiLiveOccurrenceBaseUrl: '/liveoccurrence/{apiVersion}/',
+  apiLiveOccurrencePushUrl: '/liveoccurrence/{apiVersion}/',
+  apiNonCachedBaseUrl: '/{api}/{apiVersion}/',
+  apiAuthBaseUrl: '/{api}/{apiVersion}/',
+  pushUrl: '',
+  apiPIAUrl: '/pia/api/v2/cache/',
+  apiPerfTrackingUrl: '/perf/performance/track',
+  apiSupportUrl: '/support/api/',
+};
 
 const loadedTabs = new Set();
 const blockedTabs = new Map();

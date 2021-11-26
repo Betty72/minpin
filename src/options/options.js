@@ -8,20 +8,6 @@ const staticElm = document.querySelector('#static');
 const fogglesElm = document.querySelector('#foggles');
 const outputElm = document.querySelector('#output');
 
-const paths = {
-  apiBaseUrl: '/{api}/{apiVersion}/',
-  apiStatisticsBaseUrl: '/statistics/api/',
-  apiStatisticsGraphqlUrl: '/statistics/v2018/graphql/',
-  apiLiveOccurrenceBaseUrl: '/liveoccurrence/{apiVersion}/',
-  apiLiveOccurrencePushUrl: '/liveoccurrence/{apiVersion}/',
-  apiNonCachedBaseUrl: '/{api}/{apiVersion}/',
-  apiAuthBaseUrl: '/{api}/{apiVersion}/',
-  pushUrl: '',
-  apiPIAUrl: '/pia/api/v2/cache/',
-  apiPerfTrackingUrl: '/perf/performance/track',
-  apiSupportUrl: '/support/api/',
-};
-
 const getState = () =>
   chrome.extension.getBackgroundPage().getState();
 
